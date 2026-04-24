@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Image App - IMG_0665</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .image-controls {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📷 My Image Gallery</h1>
+        
+        <div class="info">
+            <strong>🖼️ Image File:</strong> IMG_0665<br>
+            <strong>📂 Repository:</strong> Same as index.html
+        </div>
+        
+        <!-- Display the image from GitHub repo -->
+        <img src="IMG_0665" alt="IMG_0665" id="myImage" onerror="handleImageError()">
+        
+        <div class="image-controls">
+            <button onclick="zoomIn()">🔍 Zoom In</button>
+            <button onclick="zoomOut()">🔎 Zoom Out</button>
+            <button onclick="resetZoom()">⟳ Reset</button>
+            <button onclick="checkImage()">✓ Check Image Status</button>
+        </div>
+        
+        <div id="status"></div>
+        
+        <div class="info" style="margin-top: 20px; background: #fff3e0;">
+            <strong>💡 Tip:</strong> If the image doesn't load, make sure the filename includes the extension<br>
+            (e.g., IMG_0665.jpg, IMG_0665.png, or IMG_0665.gif)
+        </div>
+    </div>
+
+    <script>
+        let currentZoom = 1;
+        const img = document.getElementById('myImage');
+        
+        function zoomIn() {
+            currentZoom += 0.2;
+            img.style.transform = `scale(${currentZoom})`;
+            img.style.transition = 'transform 0.3s ease';
+        }
+        
+        function zoomOut() {
+            if (currentZoom > 0.4) {
+                currentZoom -= 0.2;
+                img.style.transform = `scale(${currentZoom})`;
+                img.style.transition = 'transform 0.3s ease';
+            }
+        }
+        
+        function resetZoom() {
+            currentZoom = 1;
+            img.style.transform = 'scale(1)';
+        }
+        
+        function handleImageError() {
+            document.getElementById('status').innerHTML = `
+                <div class="success" style="background: #f8d7da; color: #721c24;">
+                    ❌ Image not found: "IMG_0665"<br><br>
+                    <strong>Solutions:</strong><br>
+                    1. Add file extension (e.g., IMG_0665.jpg, IMG_0665.png)<br>
+                    2. Check if filename matches exactly (case-sensitive)<br>
+                    3. Verify image is in same GitHub repo folder
+                </div>
+            `;
+        }
+        
+        function checkImage() {
+            if (img.complete && img.naturalHeight !== 0) {
+                document.getElementById('status').innerHTML = `
+                    <div class="success">
+                        ✅ Image loaded successfully!<br>
+                        Dimensions: ${img.naturalWidth} x ${img.naturalHeight} pixels
+                    </div>
+                `;
+            } else {
+                document.getElementById('status').innerHTML = `
+                    <div class="success" style="background: #f8d7da; color: #721c24;">
+                        ⚠️ Image not detected<br><br>
+                        Make sure your file is named exactly as it appears in the repository.<br>
+                        Common extensions: .jpg, .jpeg, .png, .gif, .webp
+                    </div>
+                `;
+            }
+        }
+        
+        // Auto-check on page load
+        window.addEventListener('load', () => {
+            setTimeout(checkImage, 500);
+        });
+    </script>
+</body>
+</html>
